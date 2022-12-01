@@ -1,17 +1,25 @@
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+
+    fun caloriesPerElf(input: List<String>) = mutableListOf<MutableList<Int>>(mutableListOf()).apply {
+        input.forEach {
+            if (it.isBlank()) {
+                add(mutableListOf())
+            } else {
+                last().add(it.toInt())
+            }
+        }
     }
 
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
+    fun part1(input: List<String>) = caloriesPerElf(input).maxOf { it.sum() }
 
-    // test if implementation meets criteria from the description, like:
+    fun part2(input: List<String>) = caloriesPerElf(input).map { it.sum() }.sorted().takeLast(3).sum()
+
     val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
     val input = readInput("Day01")
+
+    check(part1(testInput) == 24000)
     println(part1(input))
+
+    check(part2(testInput) == 45000)
     println(part2(input))
 }
