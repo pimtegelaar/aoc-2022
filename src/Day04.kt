@@ -10,19 +10,17 @@ fun main() {
         return Pair(first.range(), second.range())
     }
 
-    fun IntRange.envelops(other: IntRange) = first <= other.first && last >= other.last
+    fun IntRange.contains(other: IntRange) = first <= other.first && last >= other.last
 
     fun part1(input: List<String>) = input.count {
         val (first, second) = it.rangePair()
-        first.envelops(second) || second.envelops(first)
+        first.contains(second) || second.contains(first)
     }
-
 
     fun part2(input: List<String>) = input.count {
         val (first, second) = it.rangePair()
         first.intersect(second).isNotEmpty()
     }
-
 
     val testInput = readInput("Day04_test")
     val input = readInput("Day04")
