@@ -1,14 +1,14 @@
 fun main() {
 
-    data class Command(
+    class Command(
         val amount: Int,
         val from: Int,
         val to: Int
     )
 
-    data class Puzzle(
+    class Puzzle(
         val commands: List<Command>,
-        val stacks: List<ArrayDeque<Char>>
+        val stacks: Array<ArrayDeque<Char>>
     )
 
     fun parseCommands(input: List<String>) = input.map {
@@ -16,13 +16,9 @@ fun main() {
         Command(split[1].toInt(), split[3].toInt(), split[5].toInt())
     }
 
-    fun parse(input: List<String>): Puzzle {
-        val separatorIndex = input.indexOfFirst { it.isBlank() }
+    fun parseStacks(input: List<String>, separatorIndex: Int): Array<ArrayDeque<Char>> {
         val size = input[separatorIndex - 1].takeLast(3).replace(" ", "").toInt()
-        val stacks = mutableListOf<ArrayDeque<Char>>()
-        for (i in 0 until size) {
-            stacks.add(ArrayDeque())
-        }
+        val stacks = Array<ArrayDeque<Char>>(size) { ArrayDeque() }
         input.take(separatorIndex - 1).forEach {
             for (i in 0 until size) {
                 val crate = it[(i + 1) * 4 - 3]
@@ -31,9 +27,12 @@ fun main() {
                 }
             }
         }
+        return stacks
+    }
 
-        val commands = parseCommands(input.drop(separatorIndex + 1))
-        return Puzzle(commands, stacks)
+    fun parse(input: List<String>): Puzzle {
+        val separatorIndex = input.indexOfFirst { it.isBlank() }
+        return Puzzle(parseCommands(input.drop(separatorIndex + 1)), parseStacks(input, separatorIndex))
     }
 
     fun part1(input: List<String>): String {
