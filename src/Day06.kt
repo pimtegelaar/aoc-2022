@@ -2,14 +2,11 @@ fun main() {
 
     fun String.isUnique() = length == toSet().size
 
-    fun uniqueAfter(input: String, size: Int): Int {
-        val first = input.windowed(size).first { it.isUnique() }
-        return input.indexOf(first) + size
-    }
+    fun uniqueAfter(input: String, size: Int) = input.indexOf(input.windowed(size).first { it.isUnique() }) + size
 
-    fun part1(input: String) = uniqueAfter(input,4)
+    fun part1(input: String) = uniqueAfter(input, 4)
 
-    fun part2(input: String) = uniqueAfter(input,14)
+    fun part2(input: String) = uniqueAfter(input, 14)
 
     val testInput = readInputAsString("Day06_test")
     val input = readInputAsString("Day06")
